@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -34,25 +35,27 @@ public class DemoBotOpmode extends OpMode {
     DcMotor pivot_motor;
     Servo pivot_Servo;
     Servo extendo_servo;
+    CRServo intake_servo;
 
+    //pivot motor values
     int pivotmstartpos = 0;
-
-    int extendostartpos = 1;
-
-    int extendoscorepos = 0;
-
-    int intakeleftpos = 0;
-
-    double intakecenterpos = .5;
-
-    int intakerightpos = 1;
-
-    //rough guesses on values
     int pivotmpickuppos = 50;
     int pivotmlowbucket = 200;
     int pivotmhighbucket = 500;
     int pivotmlowchamber = 150;
     int pivotmhighchamber = 300;
+
+    //extendo positions
+    int extendostartpos = 1;
+    int extendoscorepos = 0;
+
+    //Rodo-Intake positions
+    int intakeleftpos = 0;
+    double intakecenterpos = .5;
+    int intakerightpos = 1;
+
+
+
 
 
     @Override
@@ -64,6 +67,7 @@ public class DemoBotOpmode extends OpMode {
         pivot_Servo = hardwareMap.get(Servo.class, "rodo");
         pivot_motor = hardwareMap.get(DcMotor.class, "pivot");
         extendo_servo = hardwareMap.get(Servo.class, "extendoarm");
+        intake_servo = hardwareMap.get(CRServo.class,"");
 
         imu = hardwareMap.get(IMU.class, "imu");
 
@@ -87,8 +91,8 @@ public class DemoBotOpmode extends OpMode {
 
         pivot_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         pivot_motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         pivot_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        intake_servo.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
     }
@@ -139,25 +143,51 @@ public class DemoBotOpmode extends OpMode {
         front_right.setPower(frontRightPower);
         back_right.setPower(backRightPower);
 
-        if (gamepad1.left_bumper) {
+        // pickup
+        if (input.right_bumper.held()){
+            pivot_motor.setTargetPosition(pivotmpickuppos);
+        }
+
+        // rodo-intake
+        if (input.dpad_left.held()) {
             pivot_Servo.setPosition(intakeleftpos);
 
-        } else if (gamepad1.y) {
+        } else if (input.dpad_up.held()) {
             pivot_Servo.setPosition(intakecenterpos);
 
-        } else if (gamepad1.right_bumper) {
+        } else if (input.dpad_right.held()) {
             pivot_Servo.setPosition(intakerightpos);
         }
-        if (gamepad1.dpad_up) {
+        // intake
+        if (input.right_trigger.down()) {
+            intake_servo.setPower(1);
+        }
+        // outtake
+        if (input.left_trigger.down()) {
+            intake_servo.setPower(-1);
+        }
+        //high bucket scoring
+        if (input.y.held()) {
             pivot_motor.setTargetPosition(pivotmhighbucket);
-        }
-        if (gamepad1.dpad_down) {
-            pivot_motor.setTargetPosition(pivotmstartpos);
-        }
-        if (gamepad1.a) {
+            pivot_Servo.setPosition(intakecenterpos);
             extendo_servo.setPosition(extendoscorepos);
         }
-        if (gamepad1.b) {
+        //low bucket scoring
+        if (input.b.held()) {
+            pivot_motor.setTargetPosition(pivotmlowbucket);
+            pivot_Servo.setPosition(intakecenterpos);
+            extendo_servo.setPosition(extendostartpos);
+        }
+        //high chamber scoring
+        if (input.x.held()) {
+            pivot_motor.setTargetPosition(pivotmhighchamber);
+            pivot_Servo.setPosition(intakeleftpos);
+            extendo_servo.setPosition(extendoscorepos);
+        }
+        //low chamber scoring
+        if (input.a.held()) {
+            pivot_motor.setTargetPosition(pivotmlowchamber);
+            pivot_Servo.setPosition(intakeleftpos);
             extendo_servo.setPosition(extendostartpos);
         }
 
