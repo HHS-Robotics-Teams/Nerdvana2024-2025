@@ -39,11 +39,12 @@ public class DemoBotOpmode extends OpMode {
 
     //pivot motor values
     int pivotmstartpos = 0;
-    int pivotmpickuppos = 50;
-    int pivotmlowbucket = 200;
-    int pivotmhighbucket = 500;
-    int pivotmlowchamber = 150;
-    int pivotmhighchamber = 300;
+    int pivotmdrivepos = 28;
+    int pivotmpickuppos = 1274;
+    int pivotmlowbucket = 946;
+    int pivotmhighbucket = 751;
+    int pivotmlowchamber = 1150;
+    int pivotmhighchamber = 930;
 
     //extendo positions
     int extendostartpos = 1;
@@ -53,6 +54,9 @@ public class DemoBotOpmode extends OpMode {
     int intakeleftpos = 0;
     double intakecenterpos = .5;
     int intakerightpos = 1;
+
+    //Flags
+    boolean initPositionsReached = false;
 
 
 
@@ -67,7 +71,7 @@ public class DemoBotOpmode extends OpMode {
         pivot_Servo = hardwareMap.get(Servo.class, "rodo");
         pivot_motor = hardwareMap.get(DcMotor.class, "pivot");
         extendo_servo = hardwareMap.get(Servo.class, "extendoarm");
-        intake_servo = hardwareMap.get(CRServo.class,"");
+        intake_servo = hardwareMap.get(CRServo.class,"eject");
 
         imu = hardwareMap.get(IMU.class, "imu");
 
@@ -101,11 +105,14 @@ public class DemoBotOpmode extends OpMode {
     public void loop() {
 
         //init positions
-        pivot_motor.setTargetPosition(pivotmstartpos);
+        if(!initPositionsReached){
+        pivot_motor.setTargetPosition(pivotmdrivepos);
         extendo_servo.setPosition(extendostartpos);
-        pivot_Servo.setPosition(intakerightpos);
+        pivot_Servo.setPosition(intakecenterpos);
+        initPositionsReached = true;
+       }
 
-        pivot_motor.setPower(.5);
+        pivot_motor.setPower(.8);
 
 
         input.pollGamepad(gamepad1);
@@ -143,45 +150,62 @@ public class DemoBotOpmode extends OpMode {
         front_right.setPower(frontRightPower);
         back_right.setPower(backRightPower);
 
+        //home
+        if (input.dpad_down.down()){
+            pivot_motor.setTargetPosition(pivotmdrivepos);
+            extendo_servo.setPosition(extendostartpos);
+            pivot_Servo.setPosition(intakecenterpos);
+        }
+
+
+
         // pickup
-        if (input.right_bumper.held()){
+        if (input.right_bumper.down()){
             pivot_motor.setTargetPosition(pivotmpickuppos);
+            extendo_servo.setPosition(extendoscorepos);
+
         }
 
         // rodo-intake
-        if (input.dpad_left.held()) {
+        if (input.dpad_left.down()) {
             pivot_Servo.setPosition(intakeleftpos);
 
-        } else if (input.dpad_up.held()) {
+        } if (input.dpad_up.down()) {
             pivot_Servo.setPosition(intakecenterpos);
 
-        } else if (input.dpad_right.held()) {
+        } if (input.dpad_right.down()) {
             pivot_Servo.setPosition(intakerightpos);
         }
         // intake
         if (input.right_trigger.down()) {
             intake_servo.setPower(1);
+
         }
         // outtake
-        if (input.left_trigger.down()) {
+        else if (input.left_trigger.down()) {
             intake_servo.setPower(-1);
         }
+        // intake stop
+        else intake_servo.setPower(0);
+
+
+
         //high bucket scoring
-        if (input.y.held()) {
+        if (input.y.down()) {
             pivot_motor.setTargetPosition(pivotmhighbucket);
             pivot_Servo.setPosition(intakecenterpos);
             extendo_servo.setPosition(extendoscorepos);
         }
         //low bucket scoring
-        if (input.b.held()) {
+        if (input.b.down()) {
             pivot_motor.setTargetPosition(pivotmlowbucket);
             pivot_Servo.setPosition(intakecenterpos);
             extendo_servo.setPosition(extendostartpos);
         }
         //high chamber scoring
-        if (input.x.held()) {
+        if (input.x.down()) {
             pivot_motor.setTargetPosition(pivotmhighchamber);
-            pivot_Servo.setPosition(intakeleftpos);
+            pivot_Servo.setPosition(intakerightpos);
             extendo_servo.setPosition(extendoscorepos);
         }
         //low chamber scoring
