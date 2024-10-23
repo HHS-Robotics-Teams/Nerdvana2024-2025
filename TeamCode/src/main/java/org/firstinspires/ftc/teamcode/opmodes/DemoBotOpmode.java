@@ -95,6 +95,7 @@ public class DemoBotOpmode extends OpMode {
 
         pivot_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         pivot_motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pivot_motor.setTargetPosition(pivotmstartpos);
         pivot_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         intake_servo.setDirection(DcMotorSimple.Direction.FORWARD);
 
