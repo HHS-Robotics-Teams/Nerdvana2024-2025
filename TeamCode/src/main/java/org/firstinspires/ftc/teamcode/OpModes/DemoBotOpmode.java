@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -39,12 +39,12 @@ public class DemoBotOpmode extends OpMode {
 
     //pivot motor values
     int pivotmstartpos = 0;
-    int pivotmdrivepos = 28;
-    int pivotmpickuppos = 1274;
-    int pivotmlowbucket = 946;
-    int pivotmhighbucket = 751;
-    int pivotmlowchamber = 1150;
-    int pivotmhighchamber = 930;
+    int pivotmdrivepos =60;
+    int pivotmpickuppos = 340;
+    int pivotmlowbucket = 1750;
+    int pivotmhighbucket = 2300;
+    int pivotmlowchamber = 870;
+    int pivotmhighchamber = 1640;
 
     //extendo positions
     int extendostartpos = 1;
@@ -155,10 +155,8 @@ public class DemoBotOpmode extends OpMode {
         if (input.dpad_down.down()){
             pivot_motor.setTargetPosition(pivotmdrivepos);
             extendo_servo.setPosition(extendostartpos);
-            pivot_Servo.setPosition(intakecenterpos);
+            pivot_Servo.setPosition(intakeleftpos);
         }
-
-
 
         // pickup
         if (input.right_bumper.down()){
@@ -171,25 +169,25 @@ public class DemoBotOpmode extends OpMode {
         if (input.dpad_left.down()) {
             pivot_Servo.setPosition(intakeleftpos);
 
-        } if (input.dpad_up.down()) {
+        }
+        if (input.dpad_up.down()) {
             pivot_Servo.setPosition(intakecenterpos);
 
-        } if (input.dpad_right.down()) {
+        }
+        if (input.dpad_right.down()) {
             pivot_Servo.setPosition(intakerightpos);
         }
         // intake
-        if (input.right_trigger.down()) {
+        if (input.right_trigger.held()) {
             intake_servo.setPower(1);
 
         }
         // outtake
-        else if (input.left_trigger.down()) {
+        else if (input.left_trigger.held()) {
             intake_servo.setPower(-1);
         }
         // intake stop
         else intake_servo.setPower(0);
-
-
 
         //high bucket scoring
         if (input.y.down()) {
@@ -206,7 +204,7 @@ public class DemoBotOpmode extends OpMode {
         //high chamber scoring
         if (input.x.down()) {
             pivot_motor.setTargetPosition(pivotmhighchamber);
-            pivot_Servo.setPosition(intakerightpos);
+            pivot_Servo.setPosition(intakeleftpos);
             extendo_servo.setPosition(extendoscorepos);
         }
         //low chamber scoring
