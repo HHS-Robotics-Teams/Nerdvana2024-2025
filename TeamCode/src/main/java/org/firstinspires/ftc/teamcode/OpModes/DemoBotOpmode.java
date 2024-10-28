@@ -39,12 +39,12 @@ public class DemoBotOpmode extends OpMode {
 
     //pivot motor values
     int pivotmstartpos = 0;
-    int pivotmdrivepos = 28;
-    int pivotmpickuppos = 120;
-    int pivotmlowbucket = 420;
-    int pivotmhighbucket = 586;
-    int pivotmlowchamber = 220;
-    int pivotmhighchamber = 425;
+    int pivotmdrivepos =60;
+    int pivotmpickuppos = 340;
+    int pivotmlowbucket = 1750;
+    int pivotmhighbucket = 2300;
+    int pivotmlowchamber = 870;
+    int pivotmhighchamber = 1640;
 
     //extendo positions
     int extendostartpos = 1;
@@ -155,7 +155,7 @@ public class DemoBotOpmode extends OpMode {
         if (input.dpad_down.down()){
             pivot_motor.setTargetPosition(pivotmdrivepos);
             extendo_servo.setPosition(extendostartpos);
-            pivot_Servo.setPosition(intakecenterpos);
+            pivot_Servo.setPosition(intakeleftpos);
         }
 
         // pickup
@@ -204,7 +204,7 @@ public class DemoBotOpmode extends OpMode {
         //high chamber scoring
         if (input.x.down()) {
             pivot_motor.setTargetPosition(pivotmhighchamber);
-            pivot_Servo.setPosition(intakerightpos);
+            pivot_Servo.setPosition(intakeleftpos);
             extendo_servo.setPosition(extendoscorepos);
         }
         //low chamber scoring
