@@ -22,10 +22,9 @@ import static org.firstinspires.ftc.teamcode.RobotComponents.rightMotor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.excutil.Input;
 import org.firstinspires.ftc.teamcode.excutil.coroutines.CoroutineManager;
-import org.firstinspires.ftc.teamcode.OpMode.Constants;
+
 import org.firstinspires.ftc.teamcode.RobotComponents;
 
 @TeleOp ( name = "OutreachBotDrive")
