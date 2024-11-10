@@ -40,23 +40,25 @@ public class DemoBotOpmode extends OpMode {
     //pivot motor values
     int pivotmstartpos = 0;
     int pivotmdrivepos =60;
-    int pivotmpickuppos = 340;
+    int pivotmpickuppos = 360;
     int pivotmlowbucket = 1750;
-    int pivotmhighbucket = 2300;
+    int pivotmhighbucket = 2187;
     int pivotmlowchamber = 870;
-    int pivotmhighchamber = 1640;
+    int pivotmhighchamber = 1600;
+    int pivotmclimbpos = 3300;
 
     //extendo positions
     int extendostartpos = 1;
     int extendoscorepos = 0;
 
     //Rodo-Intake positions
-    int intakeleftpos = 0;
+    int intakeleftpos = 1;
     double intakecenterpos = .5;
-    int intakerightpos = 1;
+    int intakerightpos = 0;
 
     //Flags
     boolean initPositionsReached = false;
+    boolean climbPositionReached = false;
 
 
 
@@ -93,6 +95,7 @@ public class DemoBotOpmode extends OpMode {
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
+        pivot_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pivot_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         pivot_motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivot_motor.setTargetPosition(pivotmstartpos);
@@ -109,7 +112,7 @@ public class DemoBotOpmode extends OpMode {
         if(!initPositionsReached){
             pivot_motor.setTargetPosition(pivotmdrivepos);
             extendo_servo.setPosition(extendostartpos);
-            pivot_Servo.setPosition(intakecenterpos);
+            pivot_Servo.setPosition(intakerightpos);
             initPositionsReached = true;
         }
 
@@ -155,13 +158,14 @@ public class DemoBotOpmode extends OpMode {
         if (input.dpad_down.down()){
             pivot_motor.setTargetPosition(pivotmdrivepos);
             extendo_servo.setPosition(extendostartpos);
-            pivot_Servo.setPosition(intakeleftpos);
+            pivot_Servo.setPosition(intakerightpos);
         }
 
         // pickup
         if (input.right_bumper.down()){
             pivot_motor.setTargetPosition(pivotmpickuppos);
             extendo_servo.setPosition(extendoscorepos);
+            pivot_Servo.setPosition(intakecenterpos);
 
         }
 
@@ -205,7 +209,7 @@ public class DemoBotOpmode extends OpMode {
         if (input.x.down()) {
             pivot_motor.setTargetPosition(pivotmhighchamber);
             pivot_Servo.setPosition(intakeleftpos);
-            extendo_servo.setPosition(extendoscorepos);
+            extendo_servo.setPosition(extendostartpos);
         }
         //low chamber scoring
         if (input.a.held()) {
@@ -214,8 +218,36 @@ public class DemoBotOpmode extends OpMode {
             extendo_servo.setPosition(extendostartpos);
         }
 
+        //climbing code
+        if (input.back.down () ){
+            pivot_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+            pivot_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            pivot_motor.setTargetPosition(pivotmclimbpos);
+            pivot_Servo.setPosition(intakeleftpos);
+
+
+            climbPositionReached = true;
+
+            telemetry.speak("climb position reached");
+        }
+        if (input.start.up()&&climbPositionReached) {
+
+            extendo_servo.setPosition(extendostartpos);
+            pivot_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+            pivot_motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            pivot_Servo.setPosition(intakeleftpos);
+
+            climbPositionReached = false;
+
+
+        }
+
+
+
         telemetry.addData("pivot motor target", pivot_motor.getTargetPosition());
         telemetry.addData("pivot motor position", pivot_motor.getCurrentPosition());
+        telemetry.addData("climb active", climbPositionReached);
+        telemetry.update();
     }
 
 }
