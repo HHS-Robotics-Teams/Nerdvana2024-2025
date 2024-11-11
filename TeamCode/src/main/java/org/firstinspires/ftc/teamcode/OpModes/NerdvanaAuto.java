@@ -3,78 +3,44 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.teamcode.components.RobotComponents;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOINPOS;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOMINREACHED;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOOUTPOS;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.initPositionsReached;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakecenterpos;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakeleftpos;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakerightpos;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmdrivepos;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmhighbucket;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmhighchamber;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmlowbucket;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmlowchamber;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmpickuppos;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmstartpos;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.back_left;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.back_right;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.extendo_servo;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.front_left;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.front_right;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.imu;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.intake_servo;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.pivot_Servo;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.pivot_motor;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmclimbpos;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.rodoControlReached;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.climbPositionReached;
 
-import org.firstinspires.ftc.teamcode.excutil.Input;
-
-@Autonomous(name="Nerdvana Auto", group="idk")
+@Autonomous(name="Nerdvana Auto", group="jr-test")
 public class NerdvanaAuto extends OpMode {
 
-    public static DcMotor
-            front_left, front_right,
-            back_left, back_right;
 
-    public static IMU
-            imu;
-
-    Input input = new Input();
-
-    DcMotor pivot_motor;
-    Servo pivot_Servo;
-    Servo extendo_servo;
-    CRServo intake_servo;
-
-    //pivot motor values
-    int pivotmstartpos = 0;
-    int pivotmdrivepos =60;
-    int pivotmpickuppos = 360;
-    int pivotmlowbucket = 1750;
-    int pivotmhighbucket = 2187;
-    int pivotmlowchamber = 870;
-    int pivotmhighchamber = 1600;
-    int pivotmclimbpos = 3300;
-
-    //extendo positions
-    int extendostartpos = 1;
-    int extendoscorepos = 0;
-
-    //Rodo-Intake positions
-    int intakeleftpos = 1;
-    double intakecenterpos = .5;
-    int intakerightpos = 0;
-
-    //Flags
-    boolean initPositionsReached = false;
-    boolean climbPositionReached = false;
     private double startTime;
 
     @Override
     public void init () {
-        front_left = hardwareMap.get(DcMotor.class, "leftFront");
-        front_right = hardwareMap.get(DcMotor.class, "rightFront");
-        back_left = hardwareMap.get(DcMotor.class, "leftRear");
-        back_right = hardwareMap.get(DcMotor.class, "rightRear");
-        pivot_Servo = hardwareMap.get(Servo.class, "rodo");
-        pivot_motor = hardwareMap.get(DcMotor.class, "pivot");
-        extendo_servo = hardwareMap.get(Servo.class, "extendoarm");
-        intake_servo = hardwareMap.get(CRServo.class,"eject");
 
-        front_left.setDirection(DcMotorSimple.Direction.REVERSE);
-        back_left.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        pivot_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pivot_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        pivot_motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pivot_motor.setTargetPosition(pivotmstartpos);
-        pivot_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        intake_servo.setDirection(DcMotorSimple.Direction.FORWARD);
-
-
-
+        RobotComponents.init(hardwareMap);
 
     }
 
@@ -90,7 +56,7 @@ public class NerdvanaAuto extends OpMode {
         pivot_motor.setPower(.8);
         pivot_motor.setTargetPosition(pivotmdrivepos);
         pivot_Servo.setPosition(intakerightpos);
-        extendo_servo.setPosition(extendostartpos);
+        extendo_servo.setPosition(EXTENDOINPOS);
 
         setStartTime();
 
@@ -103,21 +69,21 @@ public class NerdvanaAuto extends OpMode {
 
         if (pivot_motor.getCurrentPosition() >= pivotmdrivepos) {
 
-            while (startTime - getRuntime() < 1) { // Move forward for 2.5 seconds.
+            while (startTime - getRuntime() < .5) { // Move forward for 2.5 seconds.
                 front_left.setPower(.5);
                 front_right.setPower(.5);
                 back_left.setPower(.5);
                 back_right.setPower(.5);
             }
 
-            if (startTime - getRuntime() >= 1) { // Stop moving after 2.5 seconds.
+            if (startTime - getRuntime() >= .5) { // Stop moving after 2.5 seconds.
                 front_left.setPower(0);
                 front_right.setPower(0);
                 back_left.setPower(0);
                 back_right.setPower(0);
 
                 pivot_motor.setTargetPosition(pivotmdrivepos);
-                extendo_servo.setPosition(extendostartpos);
+                extendo_servo.setPosition(EXTENDOINPOS);
                 pivot_Servo.setPosition(intakeleftpos);
             }
 

@@ -40,12 +40,8 @@ public class posefindersimple extends OpMode {
         telemetry.addData("pivot position",pivot_motor.getCurrentPosition());
         telemetry.addData("extendo position",extendo_servo.getPosition());
         telemetry.addData("intake direction",intake_servo.getDirection());
+        telemetry.update();
 
-        if (gamepad1.a){
-            extendo_servo.setPosition(1);
-        }
-        if (gamepad1.b){
-            extendo_servo.setPosition(0);
-        }
+
     }
 }
