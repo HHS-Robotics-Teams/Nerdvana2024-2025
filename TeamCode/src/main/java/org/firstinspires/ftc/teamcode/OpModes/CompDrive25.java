@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.components.RobotComponents;
 import org.firstinspires.ftc.teamcode.excutil.Input;
 
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOINPOS;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOMINREACHED;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOOUTPOS;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.initPositionsReached;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakecenterpos;
@@ -40,8 +39,8 @@ import static org.firstinspires.ftc.teamcode.OpModes.Constants.climbPositionReac
 
 @TeleOp(name = "CompDrive25", group = "Test jr")
 public class CompDrive25 extends OpMode {
-    private Input input;
 
+    public Input input;
 
     @Override
     public void init() {
@@ -52,18 +51,19 @@ public class CompDrive25 extends OpMode {
 
     @Override
     public void loop() {
+
+        input.pollGamepad(gamepad1);
+
         //init positions
         if(!initPositionsReached){
             pivot_motor.setTargetPosition(pivotmdrivepos);
             extendo_servo.setPosition(EXTENDOINPOS);
             pivot_Servo.setPosition(intakecenterpos);
+
             initPositionsReached = true;
         }
 
-        pivot_motor.setPower(.8);
 
-
-        input.pollGamepad(gamepad1);
 
         double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
         double x = gamepad1.left_stick_x;
@@ -120,22 +120,22 @@ public class CompDrive25 extends OpMode {
 
         // Manual Arm Tilt
             //arm up
-        if (input.left_bumper.down() && (pivot_motor.getCurrentPosition() >= pivotmclimbpos)){
+        if (input.left_bumper.held() && (pivot_motor.getCurrentPosition() >= pivotmclimbpos)){
             pivot_motor.setTargetPosition(RobotComponents.pivot_motor.getTargetPosition()+5);
 
         }
             //arm down
-        if (input.left_trigger.down() && (pivot_motor.getCurrentPosition() <= pivotmstartpos)){
+        if (input.left_trigger.held() && (pivot_motor.getCurrentPosition() <= pivotmstartpos)){
             pivot_motor.setTargetPosition(RobotComponents.pivot_motor.getTargetPosition()-5);
         }
         // Manual extension
             //arm out
-        if (input.dpad_up.down() && (extendo_servo.getPosition() > EXTENDOOUTPOS )){
+        if (input.dpad_up.held() && (extendo_servo.getPosition() > EXTENDOOUTPOS )){
             extendo_servo.setPosition(extendo_servo.getPosition()-.1);
 
         }
             //arm in
-        if (input.dpad_down.down() && (extendo_servo.getPosition() < EXTENDOINPOS )){
+        if (input.dpad_down.held()  && (extendo_servo.getPosition() < EXTENDOINPOS )){
             extendo_servo.setPosition(extendo_servo.getPosition()+.1);
         }
 

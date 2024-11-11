@@ -21,12 +21,12 @@ public class Constants {
     public static final double intakecenterpos = .5;
     public static final int intakerightpos = 1;
 
+    public static int tiltUpThreshold = 870;
+
 
 
     //Flags
     public static boolean initPositionsReached = false;
     public static boolean rodoControlReached = false;
-    public static boolean EXTENDOMINREACHED = false;
-    public static boolean EXTENDOMAXREACHED = false;
     public static boolean climbPositionReached = false;
 }

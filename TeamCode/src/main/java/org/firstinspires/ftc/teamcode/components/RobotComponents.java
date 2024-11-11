@@ -70,5 +70,6 @@ public class RobotComponents {
         pivot_motor.setTargetPosition(pivotmstartpos);
         pivot_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         intake_servo.setDirection(DcMotorSimple.Direction.FORWARD);
+        pivot_motor.setPower(.8);
     }
 }
