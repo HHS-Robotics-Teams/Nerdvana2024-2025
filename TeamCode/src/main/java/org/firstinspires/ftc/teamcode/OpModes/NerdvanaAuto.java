@@ -5,31 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.components.RobotComponents;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOINPOS;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOMINREACHED;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOOUTPOS;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.initPositionsReached;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakecenterpos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakeleftpos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakerightpos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmdrivepos;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmhighbucket;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmhighchamber;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmlowbucket;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmlowchamber;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmpickuppos;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmstartpos;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.back_left;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.back_right;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.extendo_servo;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.front_left;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.front_right;
-import static org.firstinspires.ftc.teamcode.components.RobotComponents.imu;
-import static org.firstinspires.ftc.teamcode.components.RobotComponents.intake_servo;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.pivot_Servo;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.pivot_motor;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmclimbpos;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.rodoControlReached;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.climbPositionReached;
 
 @Autonomous(name="Nerdvana Auto", group="jr-test")
 public class NerdvanaAuto extends OpMode {
