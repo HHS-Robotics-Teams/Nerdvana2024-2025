@@ -28,6 +28,7 @@ import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmrodopos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmstartpos;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.back_left;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.back_right;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.elbow_servo;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.extendo_servo;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.front_left;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.front_right;
@@ -128,6 +129,11 @@ public class CompDrive25 extends OpMode {
             pivot_Servo.setPosition(intakecenterpos);
         }
 
+        // specimen pickup position
+        if (input.start.down()) {
+
+        }
+
         // Manual Arm Tilt
             //arm up
         if (input.left_bumper.held() && (pivot_motor.getCurrentPosition() <= pivotmclimbpos)){
@@ -175,6 +181,7 @@ public class CompDrive25 extends OpMode {
             pivot_motor.setTargetPosition(pivotmhighbucket);
             pivot_Servo.setPosition(intakecenterpos);
             extendo_servo.setPosition(EXTENDOOUTPOS);
+            elbow_servo.setPosition(0);
         }
         //low bucket scoring
         if (input.b.down()) {
@@ -183,6 +190,7 @@ public class CompDrive25 extends OpMode {
             pivot_motor.setTargetPosition(pivotmlowbucket);
             pivot_Servo.setPosition(intakecenterpos);
             extendo_servo.setPosition(EXTENDOINPOS);
+            elbow_servo.setPosition(0);
         }
         //high chamber scoring
         if (input.x.down()) {
@@ -191,6 +199,8 @@ public class CompDrive25 extends OpMode {
             pivot_motor.setTargetPosition(pivotmhighchamber);
             pivot_Servo.setPosition(intakeleftpos);
             extendo_servo.setPosition(EXTENDOINPOS);
+
+            elbow_servo.setPosition(0.85);
 
             telemetry.speak("rodo control reached");
         }
@@ -201,6 +211,8 @@ public class CompDrive25 extends OpMode {
             pivot_motor.setTargetPosition(pivotmlowchamber);
             pivot_Servo.setPosition(intakeleftpos);
             extendo_servo.setPosition(EXTENDOINPOS);
+
+            elbow_servo.setPosition(0.85);
 
             telemetry.speak("rodo control reached");
         }
@@ -215,14 +227,14 @@ public class CompDrive25 extends OpMode {
 
             telemetry.speak("climb position reached");
         }
-        if (input.start.down() && climbPositionReached){
+  /*      if (input.start.down() && climbPositionReached){
             extendo_servo.setPosition(EXTENDOINPOS);
             pivot_Servo.setPosition(intakeleftpos);
             pivot_motor.setDirection(DcMotorSimple.Direction.FORWARD);
             pivot_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             climbPositionReached = false;
-        }
+        }*/
 
         telemetry.addData("pivot motor target", pivot_motor.getTargetPosition());
         telemetry.addData("pivot motor position", pivot_motor.getCurrentPosition());
