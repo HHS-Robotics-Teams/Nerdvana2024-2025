@@ -25,6 +25,7 @@ public class Constants {
     public static final int intakeleftpos = 1;
     public static final double intakecenterpos = .5;
     public static final int intakerightpos = 0;
+    public static final double intakespecimentwallpickup = 0.25;
 
     public static int tiltUpThreshold = 870;
 

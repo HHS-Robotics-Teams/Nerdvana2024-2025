@@ -18,6 +18,7 @@ import static org.firstinspires.ftc.teamcode.OpModes.Constants.initPositionsReac
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakecenterpos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakeleftpos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakerightpos;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakespecimentwallpickup;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmMinPos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmdrivepos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmhighbucket;
@@ -49,8 +50,14 @@ public class CompDrive25 extends OpMode {
     @Override
     public void init() {
         input = new Input();
-
         RobotComponents.init(hardwareMap);
+
+    }
+
+    public void start() {
+        elbow_servo.setPosition(0);
+        pivot_Servo.setPosition(0.35);
+
     }
 
     @Override
@@ -135,6 +142,9 @@ public class CompDrive25 extends OpMode {
             extendo_servo.setPosition(EXTENDOINPOS);
             elbow_servo.setPosition(elbowpickup);
             pivot_motor.setTargetPosition(pivotmpickuppos);
+            pivot_Servo.setPosition(intakespecimentwallpickup);
+
+
 
         }
 
