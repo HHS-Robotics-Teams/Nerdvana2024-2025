@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.excutil.Input;
  *
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  */
-@Disabled
+
 @TeleOp(name = "DemoBotOpmode", group = "Test BW")
 public class DemoBotOpmode extends OpMode {
 
