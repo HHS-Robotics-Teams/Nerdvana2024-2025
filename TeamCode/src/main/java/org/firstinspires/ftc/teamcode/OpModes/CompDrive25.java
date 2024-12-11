@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.excutil.Input;
 
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOINPOS;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOOUTPOS;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.elbowpickup;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.initPositionsReached;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakecenterpos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakeleftpos;
@@ -131,6 +132,9 @@ public class CompDrive25 extends OpMode {
 
         // specimen pickup position
         if (input.start.down()) {
+            extendo_servo.setPosition(EXTENDOINPOS);
+            elbow_servo.setPosition(elbowpickup);
+            pivot_motor.setTargetPosition(pivotmpickuppos);
 
         }
 
@@ -200,8 +204,7 @@ public class CompDrive25 extends OpMode {
             pivot_Servo.setPosition(intakeleftpos);
             extendo_servo.setPosition(EXTENDOINPOS);
 
-            elbow_servo.setPosition(0.85);
-
+            elbow_servo.setPosition(elbowpickup);
             telemetry.speak("rodo control reached");
         }
         //low chamber scoring
@@ -211,9 +214,7 @@ public class CompDrive25 extends OpMode {
             pivot_motor.setTargetPosition(pivotmlowchamber);
             pivot_Servo.setPosition(intakeleftpos);
             extendo_servo.setPosition(EXTENDOINPOS);
-
-            elbow_servo.setPosition(0.85);
-
+            elbow_servo.setPosition(elbowpickup);
             telemetry.speak("rodo control reached");
         }
         // Climbing

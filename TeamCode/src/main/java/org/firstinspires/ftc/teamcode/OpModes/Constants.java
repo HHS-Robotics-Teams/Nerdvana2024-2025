@@ -11,8 +11,11 @@ public class Constants {
     public static final int pivotmhighbucket = 2300;
     public static final int pivotmlowchamber = 870;
     public static final int pivotmhighchamber = 1640;
+    public static final int pivotmspecimend = 362;
 
     public static final int pivotmclimbpos = 3300;
+
+    public static final double elbowpickup = .29;
 
     //extendo positions
     public static final int EXTENDOINPOS = 1;
