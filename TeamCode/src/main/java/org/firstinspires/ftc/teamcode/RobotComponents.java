@@ -14,6 +14,7 @@ public class RobotComponents {
     public static Servo pincer_right = null;
     public static Servo pincer_left = null;
     public static Servo claw_tilt = null;
+    public static Servo feetech_servo = null;
 
     public static DcMotor arm_tilt = null;
     public static DcMotor leftMotor;
@@ -27,6 +28,7 @@ public class RobotComponents {
         pincer_left = hardwareMap.servo.get("pincer left");
         pincer_right = hardwareMap.servo.get("pincer right");
         claw_tilt = hardwareMap.servo.get("claw tilt");
+        feetech_servo = hardwareMap.servo.get("feetech");
 
 
 
@@ -37,6 +39,8 @@ public class RobotComponents {
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm_tilt.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm_tilt.setTargetPosition(tiltstartpos);
+        feetech_servo.setDirection(Servo.Direction.REVERSE);
+        feetech_servo.setPosition(tiltstartpos);
 
     }
 
