@@ -96,13 +96,13 @@ public class OutreachBotDrive extends OpMode {
             PincersClosed = true;
         }
         //pincer drop
-        if (input.left_trigger.down() && PincersClosed){
+        if (input.left_trigger.down()){
             pincer_left.setPosition(pincerleftopen);
             pincer_right.setPosition(pincerrightopen);
             PincersClosed = false;
         }
         //Scoring
-        if (input.left_bumper.down() && PincersClosed) {
+        if (input.left_bumper.down() ) {
             arm_tilt.setTargetPosition(tiltdroppos);
             claw_tilt.setPosition(clawtiltdroppos);
             PincersClosed = false;

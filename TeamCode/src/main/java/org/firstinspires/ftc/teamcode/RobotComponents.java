@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -18,6 +19,8 @@ public class RobotComponents {
     public static DcMotor arm_tilt = null;
     public static DcMotor leftMotor;
     public static DcMotor rightMotor;
+    public static ColorSensor colorSensor;
+
 
     public static void init(HardwareMap hardwareMap) {
         // Initialize motors from hardware map
@@ -27,6 +30,8 @@ public class RobotComponents {
         pincer_left = hardwareMap.servo.get("pincer left");
         pincer_right = hardwareMap.servo.get("pincer right");
         claw_tilt = hardwareMap.servo.get("claw tilt");
+
+        colorSensor = hardwareMap.get(ColorSensor.class, "color_sensor");
 
 
 
