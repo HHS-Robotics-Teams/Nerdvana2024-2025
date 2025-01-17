@@ -14,6 +14,7 @@ import static org.firstinspires.ftc.teamcode.OpMode.Constants.tiltdroppos;
 import static org.firstinspires.ftc.teamcode.OpMode.Constants.tiltstartpos;
 import static org.firstinspires.ftc.teamcode.RobotComponents.arm_tilt;
 import static org.firstinspires.ftc.teamcode.RobotComponents.claw_tilt;
+import static org.firstinspires.ftc.teamcode.RobotComponents.colorSensor;
 import static org.firstinspires.ftc.teamcode.RobotComponents.leftMotor;
 import static org.firstinspires.ftc.teamcode.RobotComponents.pincer_left;
 import static org.firstinspires.ftc.teamcode.RobotComponents.pincer_right;
@@ -58,6 +59,7 @@ public class OutreachBotDrive extends OpMode {
 
     @Override
     public void loop() {
+        DetectedColor.updateColor(colorSensor);
         input.pollGamepad(gamepad1);
 
 
@@ -124,6 +126,9 @@ public class OutreachBotDrive extends OpMode {
             PincersClosed = false;
         }
 
+
+        // Display the detected color on telemetry
+        telemetry.addData("Detected Color", DetectedColor.getColor());
         telemetry.addData("arm tilt position", arm_tilt.getCurrentPosition());
         telemetry.addData("claw tilt position",claw_tilt.getPosition());
         // Display motor power on telemetry
