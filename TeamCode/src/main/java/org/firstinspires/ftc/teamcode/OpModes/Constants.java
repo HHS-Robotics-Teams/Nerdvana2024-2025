@@ -18,12 +18,12 @@ public class Constants {
     public static final int extandomout = 449;
     public static final int extendomstartpos = 0;
 
+
     //Rodo-Intake positions
     public static final int intakeleftpos = 1;
     public static final double intakecenterpos = .5;
     public static final int intakerightpos = 0;
 
-    public static int tiltUpThreshold = 870;
 
 
 

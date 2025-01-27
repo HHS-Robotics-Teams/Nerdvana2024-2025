@@ -33,6 +33,8 @@ public class RobotComponents {
 
     public static CRServo intake_servo = null;
 
+    public static Servo elbow_servo = null;
+
     public static IMU imu;
 
 
@@ -46,6 +48,8 @@ public class RobotComponents {
         pivot_motor = hardwareMap.get(DcMotor.class, "pivot");
         extendo_MOTOR = hardwareMap.get(DcMotor.class, "extendoarm");
         intake_servo = hardwareMap.get(CRServo.class, "eject");
+
+        elbow_servo = hardwareMap.get(Servo.class, "elbow");
 
         imu = hardwareMap.get(IMU.class, "imu");
 

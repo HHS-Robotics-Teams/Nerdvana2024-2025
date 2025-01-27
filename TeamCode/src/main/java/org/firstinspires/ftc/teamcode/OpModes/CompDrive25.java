@@ -29,6 +29,7 @@ import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmstartpos;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.back_left;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.back_right;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.extendo_MOTOR;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.elbow_servo;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.front_left;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.front_right;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.imu;
@@ -47,8 +48,14 @@ public class CompDrive25 extends OpMode {
     @Override
     public void init() {
         input = new Input();
-
         RobotComponents.init(hardwareMap);
+
+    }
+
+    public void start() {
+        elbow_servo.setPosition(0);
+        pivot_Servo.setPosition(0.35);
+
     }
 
     @Override
@@ -57,14 +64,13 @@ public class CompDrive25 extends OpMode {
         input.pollGamepad(gamepad1);
 
         //init positions
-        if(!initPositionsReached){
+        if (!initPositionsReached) {
             pivot_motor.setTargetPosition(pivotmdrivepos);
             extendo_MOTOR.setTargetPosition(extendomstartpos);
             pivot_Servo.setPosition(intakecenterpos);
 
             initPositionsReached = true;
         }
-
 
 
         double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
@@ -95,7 +101,7 @@ public class CompDrive25 extends OpMode {
         double frontRightPower = (rotY - rotX - rx) / denominator;
         double backRightPower = (rotY + rotX - rx) / denominator;
 
-        if (pivot_motor.getCurrentPosition() > pivotmlowchamber){
+        if (pivot_motor.getCurrentPosition() > pivotmlowchamber) {
             front_left.setPower(frontLeftPower / 4);
             back_left.setPower(backLeftPower / 4);
             front_right.setPower(frontRightPower / 4);
@@ -110,7 +116,7 @@ public class CompDrive25 extends OpMode {
         //Arm logic
 
 
-        if (pivot_motor.getCurrentPosition() < pivotmrodopos){
+        if (pivot_motor.getCurrentPosition() < pivotmrodopos) {
             rodoControlReached = false;
             pivot_Servo.setPosition(intakecenterpos);
         }
@@ -128,25 +134,30 @@ public class CompDrive25 extends OpMode {
             pivot_Servo.setPosition(intakecenterpos);
         }
 
-        // Manual Arm Tilt
-            //arm up
-        if (input.left_bumper.held() && (pivot_motor.getCurrentPosition() <= pivotmclimbpos)){
-            pivot_motor.setTargetPosition(pivot_motor.getTargetPosition()+25);
+        {
+
 
         }
-            //arm down
-        if (input.right_bumper.held() && (pivot_motor.getCurrentPosition() >= pivotmMinPos)){
-            pivot_motor.setTargetPosition(pivot_motor.getTargetPosition()-25);
+
+        // Manual Arm Tilt
+        //arm up
+        if (input.left_bumper.held() && (pivot_motor.getCurrentPosition() <= pivotmclimbpos)) {
+            pivot_motor.setTargetPosition(pivot_motor.getTargetPosition() + 25);
+
+        }
+        //arm down
+        if (input.right_bumper.held() && (pivot_motor.getCurrentPosition() >= pivotmMinPos)) {
+            pivot_motor.setTargetPosition(pivot_motor.getTargetPosition() - 25);
         }
         // Manual extension
-            //arm out
-        if (input.dpad_up.held() && (extendo_MOTOR.getTargetPosition() <= extandomout )){
-            extendo_MOTOR.setTargetPosition(extendo_MOTOR.getTargetPosition()+10);
+        //arm out
+        if (input.dpad_up.held() && (extendo_MOTOR.getTargetPosition() <= extandomout)) {
+            extendo_MOTOR.setTargetPosition(extendo_MOTOR.getTargetPosition() + 10);
 
         }
-            //arm in
-        if (input.dpad_down.held()  && (extendo_MOTOR.getTargetPosition() >= 0 )){
-            extendo_MOTOR.setTargetPosition(extendo_MOTOR.getTargetPosition()-10);
+        //arm in
+        if (input.dpad_down.held() && (extendo_MOTOR.getTargetPosition() >= 0)) {
+            extendo_MOTOR.setTargetPosition(extendo_MOTOR.getTargetPosition() - 10);
         }
 
         // rodo-intake
@@ -175,6 +186,7 @@ public class CompDrive25 extends OpMode {
             pivot_motor.setTargetPosition(pivotmhighbucket);
             pivot_Servo.setPosition(intakecenterpos);
             extendo_MOTOR.setTargetPosition(extandomout);
+            elbow_servo.setPosition(0);
         }
         //low bucket scoring
         if (input.b.down()) {
@@ -191,7 +203,6 @@ public class CompDrive25 extends OpMode {
             pivot_motor.setTargetPosition(pivotmhighchamber);
             pivot_Servo.setPosition(intakeleftpos);
             extendo_MOTOR.setTargetPosition(extendomstartpos);
-
             telemetry.speak("rodo control reached");
         }
         //low chamber scoring
@@ -201,11 +212,10 @@ public class CompDrive25 extends OpMode {
             pivot_motor.setTargetPosition(pivotmlowchamber);
             pivot_Servo.setPosition(intakeleftpos);
             extendo_MOTOR.setTargetPosition(extendomstartpos);
-
             telemetry.speak("rodo control reached");
         }
         // Climbing
-        if (input.back.down()){
+        if (input.back.down()) {
             extendo_MOTOR.setTargetPosition(extendomstartpos);
             pivot_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             pivot_motor.setTargetPosition(pivotmclimbpos);
@@ -215,22 +225,18 @@ public class CompDrive25 extends OpMode {
 
             telemetry.speak("climb position reached");
         }
-        if (input.start.down() && climbPositionReached){
+        if (input.start.down() && climbPositionReached) {
             extendo_MOTOR.setTargetPosition(extendomstartpos);
-            pivot_Servo.setPosition(intakeleftpos);
-            pivot_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-            pivot_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-            climbPositionReached = false;
         }
 
-        telemetry.addData("pivot motor target", pivot_motor.getTargetPosition());
-        telemetry.addData("pivot motor position", pivot_motor.getCurrentPosition());
-        telemetry.addData("extendo motor target", extendo_MOTOR.getTargetPosition());
-        telemetry.addData("extendo motor position", extendo_MOTOR.getCurrentPosition());
-        telemetry.addData("climb control status", climbPositionReached ? "True" : "False");
-        telemetry.addData("rodo control status", rodoControlReached ? "True" : "False");
-        telemetry.update();
+            telemetry.addData("pivot motor target", pivot_motor.getTargetPosition());
+            telemetry.addData("pivot motor position", pivot_motor.getCurrentPosition());
+            telemetry.addData("extendo motor target", extendo_MOTOR.getTargetPosition());
+            telemetry.addData("extendo motor position", extendo_MOTOR.getCurrentPosition());
+            telemetry.addData("climb control status", climbPositionReached ? "True" : "False");
+            telemetry.addData("rodo control status", rodoControlReached ? "True" : "False");
+            telemetry.update();
+        }
+
     }
 
-}
