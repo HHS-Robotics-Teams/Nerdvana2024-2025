@@ -4,13 +4,13 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.components.RobotComponents;
-import static org.firstinspires.ftc.teamcode.OpModes.Constants.EXTENDOINPOS;
+import static org.firstinspires.ftc.teamcode.OpModes.Constants.extendomstartpos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakeleftpos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.intakerightpos;
 import static org.firstinspires.ftc.teamcode.OpModes.Constants.pivotmdrivepos;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.back_left;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.back_right;
-import static org.firstinspires.ftc.teamcode.components.RobotComponents.extendo_servo;
+import static org.firstinspires.ftc.teamcode.components.RobotComponents.extendo_MOTOR;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.front_left;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.front_right;
 import static org.firstinspires.ftc.teamcode.components.RobotComponents.pivot_Servo;
@@ -41,7 +41,7 @@ public class NerdvanaAuto extends OpMode {
         pivot_motor.setPower(.8);
         pivot_motor.setTargetPosition(pivotmdrivepos);
         pivot_Servo.setPosition(intakerightpos);
-        extendo_servo.setPosition(EXTENDOINPOS);
+        extendo_MOTOR.setTargetPosition(extendomstartpos);
 
         setStartTime();
 
@@ -68,7 +68,7 @@ public class NerdvanaAuto extends OpMode {
                 back_right.setPower(0);
 
                 pivot_motor.setTargetPosition(pivotmdrivepos);
-                extendo_servo.setPosition(EXTENDOINPOS);
+                extendo_MOTOR.setTargetPosition(extendomstartpos);
                 pivot_Servo.setPosition(intakeleftpos);
             }
 
